@@ -18,51 +18,51 @@ import java.io.OutputStream;
 @SpringBootApplication
 public class JavaSslOutgoingTestApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(JavaSslOutgoingTestApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(JavaSslOutgoingTestApplication.class, args);
+    }
 
-	@Controller
-	class TestController{
+    @Controller
+    class TestController {
 
-		@GetMapping("/")
-		public String testForm(Model model) {
-			model.addAttribute(new Test());
-			return "test";
-		}
+        @GetMapping("/")
+        public String testForm(Model model) {
+            model.addAttribute(new Test());
+            return "test";
+        }
 
-		@PostMapping("/")
-		public String testFormSubmit(@ModelAttribute Test test, Model model) {
-			model.addAttribute("result", poke(test.getHost(), test.getPort()));
-			return "test";
-		}
+        @PostMapping("/")
+        public String testFormSubmit(@ModelAttribute Test test, Model model) {
+            model.addAttribute("result", poke(test.getHost(), test.getPort()));
+            return "test";
+        }
 
-		private Object poke(String host, int port) {
-			try {
-				SSLSocketFactory sssf = (SSLSocketFactory)SSLSocketFactory.getDefault();
-				SSLSocket sss = (SSLSocket)sssf.createSocket(host, port);
+        private Object poke(String host, int port) {
+            try {
+                SSLSocketFactory sssf = (SSLSocketFactory) SSLSocketFactory.getDefault();
+                SSLSocket sss = (SSLSocket) sssf.createSocket(host, port);
 
-				//for SNI
-				SSLParameters sslParams = new SSLParameters();
-				sslParams.setEndpointIdentificationAlgorithm("HTTPS");
-				sss.setSSLParameters(sslParams);
-				//
-				
-				InputStream is = sss.getInputStream();
-				OutputStream os = sss.getOutputStream();
-				os.write(42);
-				while(is.available() > 0){
+                //for SNI
+                SSLParameters sslParams = new SSLParameters();
+                sslParams.setEndpointIdentificationAlgorithm("HTTPS");
+                sss.setSSLParameters(sslParams);
+                //
+
+                InputStream is = sss.getInputStream();
+                OutputStream os = sss.getOutputStream();
+                os.write(42);
+                while (is.available() > 0) {
                     System.out.print(is.read());
                 }
-			} catch (IOException e) {
-				e.printStackTrace();
-				return e.getMessage();
-			}
-			return "Success";
-		}
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.getMessage();
+            }
+            return "Success";
+        }
 
 
-	}
+    }
 
 
 }
