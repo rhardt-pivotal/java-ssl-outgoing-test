@@ -1,0 +1,6 @@
+---
+applications:
+- name: outgoing-ssl-test
+  buildpack: java_buildpack
+  memory: 1G
+  path: target/java-ssl-outgoing-test-0.0.1-SNAPSHOT.jar

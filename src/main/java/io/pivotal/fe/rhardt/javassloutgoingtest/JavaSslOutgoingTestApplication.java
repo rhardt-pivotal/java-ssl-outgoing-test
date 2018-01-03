@@ -56,7 +56,7 @@ public class JavaSslOutgoingTestApplication {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                return e.getMessage();
+                return "FAIL!! -- "+e.getClass().getName()+" -- "+e.getMessage();
             }
             return "Success";
         }
